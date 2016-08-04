@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -39,16 +40,13 @@ public class LawnBlock extends BlockGrass implements Lawn {
                 world.setBlockState(pos, Blocks.DIRT.getDefaultState());
             } else if (world.getLight(pos.up()) >= 9) {
                 int chance = 0;
-                for (int xOff = -1; xOff <= 1; xOff++) {
-                    for (int yOff = -1; yOff <= 1; yOff++) {
-                        if (xOff != yOff) {
-                            if (world.getBlockState(pos.east(xOff).south(yOff)).getBlock() == Blocks.GRASS) {
-                                chance++;
-                            }
-                        }
+                for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+                    if (world.getBlockState(pos.offset(facing)).getBlock() == Blocks.GRASS) {
+                        chance++;
                     }
                 }
-                if (chance != 0 && random.nextInt(64 / chance) == 0) {
+                chance *= world.isRaining() ? 22 : 10 * 100 / 75;
+                if (chance != 0 && random.nextInt(100) > 100 - chance) {
                     world.setBlockState(pos, Blocks.GRASS.getDefaultState());
                 }
             }

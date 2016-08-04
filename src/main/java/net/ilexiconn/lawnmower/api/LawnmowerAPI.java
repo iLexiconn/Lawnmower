@@ -62,8 +62,6 @@ public enum LawnmowerAPI {
             world.setBlockToAir(pos);
         }
 
-        System.out.println("mowed grass");
-
         return true;
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -18,6 +19,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientProxy extends ServerProxy {
     @Override
     public void onPreInit() {
+        super.onPreInit();
+
+        MinecraftForge.EVENT_BUS.register(ClientEventHandler.INSTANCE);
+
         for (int i = 0; i < LawnmowerItem.COLORS.length; i++) {
             ModelLoader.setCustomModelResourceLocation(Lawnmower.LAWNMOWER, i, new ModelResourceLocation("lawnmower:lawnmower_" + LawnmowerItem.COLORS[i].getName(), "inventory"));
         }
@@ -25,6 +30,8 @@ public class ClientProxy extends ServerProxy {
 
     @Override
     public void onInit() {
+        super.onInit();
+
         BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
 
         blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> {
@@ -41,9 +48,9 @@ public class ClientProxy extends ServerProxy {
                 green += 18;
                 blue += 18;
             } else {
-                red -= 18;
-                green -= 18;
-                blue -= 18;
+                red -= 22;
+                green -= 22;
+                blue -= 22;
             }
             return ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
         }, Lawnmower.LAWN);

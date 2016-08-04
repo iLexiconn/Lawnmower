@@ -15,6 +15,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 def mod_file = getModFile()
 version = getVersion("VERSION", mod_file)
 def llibrary_version = getVersion("LLIBRARY_VERSION", mod_file)
+def top_version = getVersion("TOP_VERSION", mod_file)
 group = "net.ilexiconn"
 archivesBaseName = "lawnmower"
 sourceCompatibility = targetCompatibility = "1.8"
@@ -31,10 +32,15 @@ repositories {
 		name = "ilexiconn"
 		url = "http://maven.ilexiconn.net"
 	}
+    maven {
+        name = "tterrag"
+        url = "http://maven.tterrag.com/"
+    }
 }
 
 dependencies {
     compile "net.ilexiconn:llibrary:$llibrary_version-1.10.2:dev"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-$top_version"
 }
 
 processResources {
