@@ -4,10 +4,13 @@ import net.ilexiconn.lawnmower.Lawnmower;
 import net.ilexiconn.lawnmower.api.Lawn;
 import net.ilexiconn.lawnmower.api.LawnType;
 import net.ilexiconn.lawnmower.server.ServerProxy;
+import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.biome.BiomeColorHelper;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -15,7 +18,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientProxy extends ServerProxy {
     @Override
     public void onPreInit() {
-
+        for (int i = 0; i < LawnmowerItem.COLORS.length; i++) {
+            ModelLoader.setCustomModelResourceLocation(Lawnmower.LAWNMOWER, i, new ModelResourceLocation("lawnmower:lawnmower_" + LawnmowerItem.COLORS[i].getName(), "inventory"));
+        }
     }
 
     @Override

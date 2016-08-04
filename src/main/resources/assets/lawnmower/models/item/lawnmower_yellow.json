@@ -1,0 +1,6 @@
+{
+  "parent": "lawnmower:item/lawnmower",
+  "textures": {
+    "1": "lawnmower:items/yellow"
+  }
+}
