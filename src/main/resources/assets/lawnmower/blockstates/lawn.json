@@ -1,0 +1,44 @@
+{
+  "variants": {
+    "snowy=false,type=light": [
+      {
+        "model": "lawnmower:lawn"
+      },
+      {
+        "model": "lawnmower:lawn",
+        "y": 90
+      },
+      {
+        "model": "lawnmower:lawn",
+        "y": 180
+      },
+      {
+        "model": "lawnmower:lawn",
+        "y": 270
+      }
+    ],
+    "snowy=false,type=dark": [
+      {
+        "model": "lawnmower:lawn"
+      },
+      {
+        "model": "lawnmower:lawn",
+        "y": 90
+      },
+      {
+        "model": "lawnmower:lawn",
+        "y": 180
+      },
+      {
+        "model": "lawnmower:lawn",
+        "y": 270
+      }
+    ],
+    "snowy=true,type=light": {
+      "model": "grass_snowed"
+    },
+    "snowy=true,type=dark": {
+      "model": "grass_snowed"
+    }
+  }
+}

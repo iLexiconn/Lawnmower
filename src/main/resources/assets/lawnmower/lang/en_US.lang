@@ -1,0 +1,4 @@
+item.lawnmower.name=Lawnmower
+
+death.attack.lawnmower=%1$s's jimmies were rustled
+death.attack.lawnmower.player=%1$s walked into a lawnmower to escape %2$s

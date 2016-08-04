@@ -1,0 +1,5 @@
+minecraft/
+build/
+out/
+.gradle/
+.idea/
