@@ -42,6 +42,11 @@ public enum LawnmowerAPI {
         }
 
         IBlockState lawnState = lawn.getBlockState(world, pos, entity, grass);
+
+        if (lawnState == null) {
+            return false;
+        }
+
         MowEvent mowEvent = new MowEvent(lawnmower, world, pos, entity, lawnState, grass);
         if (MinecraftForge.EVENT_BUS.post(mowEvent)) {
             return false;
