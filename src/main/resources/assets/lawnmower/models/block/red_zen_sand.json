@@ -1,0 +1,7 @@
+{
+  "parent": "lawnmower:block/zen_sand",
+  "textures": {
+    "all": "blocks/red_sand",
+    "particle": "blocks/red_sand"
+  }
+}

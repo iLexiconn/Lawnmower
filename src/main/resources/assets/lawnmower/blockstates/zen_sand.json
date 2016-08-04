@@ -1,0 +1,72 @@
+{
+  "variants": {
+    "type=light,variant=sand": [
+      {
+        "model": "lawnmower:zen_sand"
+      },
+      {
+        "model": "lawnmower:zen_sand",
+        "y": 90
+      },
+      {
+        "model": "lawnmower:zen_sand",
+        "y": 180
+      },
+      {
+        "model": "lawnmower:zen_sand",
+        "y": 270
+      }
+    ],
+    "type=dark,variant=sand": [
+      {
+        "model": "lawnmower:zen_sand"
+      },
+      {
+        "model": "lawnmower:zen_sand",
+        "y": 90
+      },
+      {
+        "model": "lawnmower:zen_sand",
+        "y": 180
+      },
+      {
+        "model": "lawnmower:zen_sand",
+        "y": 270
+      }
+    ],
+    "type=light,variant=red_sand": [
+      {
+        "model": "lawnmower:red_zen_sand"
+      },
+      {
+        "model": "lawnmower:red_zen_sand",
+        "y": 90
+      },
+      {
+        "model": "lawnmower:red_zen_sand",
+        "y": 180
+      },
+      {
+        "model": "lawnmower:red_zen_sand",
+        "y": 270
+      }
+    ],
+    "type=dark,variant=red_sand": [
+      {
+        "model": "lawnmower:red_zen_sand"
+      },
+      {
+        "model": "lawnmower:red_zen_sand",
+        "y": 90
+      },
+      {
+        "model": "lawnmower:red_zen_sand",
+        "y": 180
+      },
+      {
+        "model": "lawnmower:red_zen_sand",
+        "y": 270
+      }
+    ]
+  }
+}

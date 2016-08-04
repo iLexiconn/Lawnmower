@@ -67,17 +67,17 @@ public class LawnBlock extends BlockGrass implements Lawn {
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(Lawn.TYPE) == LawnType.DARK ? 1 : 0;
+        return state.getValue(Lawn.TYPE).ordinal();
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(Lawn.TYPE, meta == 1 ? LawnType.DARK : LawnType.LIGHT);
+        return this.getDefaultState().withProperty(Lawn.TYPE, LawnType.values()[meta]);
     }
 
     @Override
     public IBlockState getBlockState(World world, BlockPos pos, Entity entity, IBlockState grass) {
-        return Lawnmower.LAWN.getDefaultState().withProperty(Lawn.TYPE, pos.getX() % 2 == 0 ? LawnType.LIGHT : LawnType.DARK);
+        return Lawnmower.LAWN.getDefaultState().withProperty(Lawn.TYPE, LawnType.values()[pos.getX() % 2]);
     }
 
     @Override

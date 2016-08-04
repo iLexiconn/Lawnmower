@@ -5,6 +5,7 @@ import net.ilexiconn.lawnmower.api.Lawn;
 import net.ilexiconn.lawnmower.api.LawnType;
 import net.ilexiconn.lawnmower.server.ServerProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +20,9 @@ public class ClientProxy extends ServerProxy {
 
     @Override
     public void onInit() {
-        Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex) -> {
+        BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
+
+        blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> {
             if (world == null || pos == null) {
                 return ColorizerGrass.getGrassColor(0.5D, 1.0D);
             }
@@ -39,5 +42,9 @@ public class ClientProxy extends ServerProxy {
             }
             return ((blue & 0xFF) << 16) | ((green & 0xFF) << 8) | (red & 0xFF);
         }, Lawnmower.LAWN);
+        blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> {
+            LawnType type = state.getValue(Lawn.TYPE);
+            return type == LawnType.LIGHT ? 0xFFFFFF : 0xDDDDDD;
+        }, Lawnmower.ZEN_SAND);
     }
 }

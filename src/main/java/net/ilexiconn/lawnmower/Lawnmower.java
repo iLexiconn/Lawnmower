@@ -3,6 +3,7 @@ package net.ilexiconn.lawnmower;
 import net.ilexiconn.lawnmower.api.LawnmowerAPI;
 import net.ilexiconn.lawnmower.server.ServerProxy;
 import net.ilexiconn.lawnmower.server.block.LawnBlock;
+import net.ilexiconn.lawnmower.server.block.ZenSandBlock;
 import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -21,6 +22,7 @@ public class Lawnmower {
     public static ServerProxy PROXY;
 
     public static final LawnBlock LAWN = new LawnBlock();
+    public static final ZenSandBlock ZEN_SAND = new ZenSandBlock();
     public static final Item LAWNMOWER = new LawnmowerItem();
 
     @Mod.EventHandler
@@ -28,9 +30,11 @@ public class Lawnmower {
         Lawnmower.PROXY.onPreInit();
 
         GameRegistry.register(Lawnmower.LAWN);
+        GameRegistry.register(Lawnmower.ZEN_SAND);
         GameRegistry.register(Lawnmower.LAWNMOWER);
 
         LawnmowerAPI.INSTANCE.registerLawn(Blocks.GRASS, Lawnmower.LAWN);
+        LawnmowerAPI.INSTANCE.registerLawn(Blocks.SAND, Lawnmower.ZEN_SAND);
     }
 
     @Mod.EventHandler
