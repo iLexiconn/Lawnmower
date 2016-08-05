@@ -79,7 +79,7 @@ public class GrassBlock extends Block implements IPlantable {
 
     @Override
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block) {
-        if (!world.getBlockState(pos.down()).isFullBlock()){
+        if (!world.getBlockState(pos.down()).isFullBlock()) {
             world.destroyBlock(pos, false);
         }
     }

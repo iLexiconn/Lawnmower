@@ -29,7 +29,6 @@ import java.util.Random;
 public class ClientProxy extends ServerProxy {
     public static final SoundEvent ENGINE = new SoundEvent(new ResourceLocation("lawnmower", "engine"));
     public static final SoundEvent RUSTLE = new SoundEvent(new ResourceLocation("lawnmower", "rustle"));
-    public static final SoundEvent SCREAM = new SoundEvent(new ResourceLocation("lawnmower", "scream"));
 
     @Override
     public void onPreInit() {
@@ -37,7 +36,6 @@ public class ClientProxy extends ServerProxy {
 
         GameRegistry.register(ClientProxy.ENGINE, new ResourceLocation("lawnmower", "engine"));
         GameRegistry.register(ClientProxy.RUSTLE, new ResourceLocation("lawnmower", "rustle"));
-        GameRegistry.register(ClientProxy.SCREAM, new ResourceLocation("lawnmower", "scream"));
 
         MinecraftForge.EVENT_BUS.register(ClientEventHandler.INSTANCE);
         RenderingRegistry.registerEntityRenderingHandler(LawnmowerEntity.class, new LawnmowerRenderer.Factory());
