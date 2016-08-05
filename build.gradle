@@ -61,6 +61,8 @@ processResources {
 jar {
     manifest {
         attributes "FMLAT": "lwnmower_at.cfg"
+        attributes "FMLCorePlugin": "net.ilexiconn.lawnmower.server.asm.plugin.LawnmowerPlugin"
+        attributes "FMLCorePluginContainsFMLMod": "true"
     }
 }
 

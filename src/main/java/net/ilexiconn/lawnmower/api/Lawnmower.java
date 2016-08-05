@@ -7,9 +7,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public interface Lawnmower {
-    default void onUpdateLawnmower(World world, Entity entity) {
+    default boolean onUpdateLawnmower(World world, Entity entity) {
         if (world.isRemote) {
-            return;
+            return false;
         }
         BlockPos pos = entity.getPosition().down();
         if (LawnmowerAPI.INSTANCE.handleMow(this, world, pos, entity)) {
@@ -18,7 +18,9 @@ public interface Lawnmower {
                     target.attackEntityFrom(new EntityDamageSource("lawnmower", entity), 6.0F);
                 }
             }
+            return true;
         }
+        return false;
     }
 
     default boolean damageEntities() {

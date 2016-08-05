@@ -6,10 +6,11 @@ import net.ilexiconn.lawnmower.api.LawnType;
 import net.ilexiconn.lawnmower.client.render.LawnmowerRenderer;
 import net.ilexiconn.lawnmower.server.ServerProxy;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
-import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.ColorizerGrass;
@@ -17,26 +18,31 @@ import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends ServerProxy {
-    public static SoundEvent RUSTLE;
+    public static final SoundEvent ENGINE = new SoundEvent(new ResourceLocation("lawnmower", "engine"));
+    public static final SoundEvent RUSTLE = new SoundEvent(new ResourceLocation("lawnmower", "rustle"));
+    public static final SoundEvent SCREAM = new SoundEvent(new ResourceLocation("lawnmower", "scream"));
 
     @Override
     public void onPreInit() {
         super.onPreInit();
 
-        ClientProxy.RUSTLE = this.createSound("rustle");
+        GameRegistry.register(ClientProxy.ENGINE, new ResourceLocation("lawnmower", "engine"));
+        GameRegistry.register(ClientProxy.RUSTLE, new ResourceLocation("lawnmower", "rustle"));
+        GameRegistry.register(ClientProxy.SCREAM, new ResourceLocation("lawnmower", "scream"));
 
         MinecraftForge.EVENT_BUS.register(ClientEventHandler.INSTANCE);
         RenderingRegistry.registerEntityRenderingHandler(LawnmowerEntity.class, new LawnmowerRenderer.Factory());
 
-        for (int i = 0; i < LawnmowerItem.COLORS.length; i++) {
-            ModelLoader.setCustomModelResourceLocation(Lawnmower.LAWNMOWER, i, new ModelResourceLocation("lawnmower:lawnmower_" + LawnmowerItem.COLORS[i].getName(), "inventory"));
-        }
+        ModelLoader.setCustomModelResourceLocation(Lawnmower.LAWNMOWER, 0, new ModelResourceLocation("lawnmower:lawnmower", "inventory"));
     }
 
     @Override
@@ -68,10 +74,37 @@ public class ClientProxy extends ServerProxy {
             LawnType type = state.getValue(Lawn.TYPE);
             return type == LawnType.LIGHT ? 0xFFFFFF : 0xDDDDDD;
         }, Lawnmower.ZEN_SAND);
-    }
+        blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> {
+            if (world == null || pos == null) {
+                return ColorizerGrass.getGrassColor(0.5D, 1.0D);
+            } else {
+                return BiomeColorHelper.getGrassColorAtPos(world, pos);
+            }
+        }, Lawnmower.GRASS);
 
-    private SoundEvent createSound(String name) {
-        ResourceLocation resource = new ResourceLocation("lawnmower", name);
-        return GameRegistry.register(new SoundEvent(resource), resource);
+        ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
+        itemColors.registerItemColorHandler((stack, tintIndex) -> {
+            if (tintIndex == 0) {
+                NBTTagCompound compound = stack.getTagCompound();
+                if (compound == null || !compound.hasKey("Color")) {
+                    return 0xFFFFFF;
+                }
+
+                return compound.getInteger("Color");
+            }
+            return 0;
+        }, Lawnmower.LAWNMOWER);
+
+        int amount = 100 - new Random().nextInt(100);
+        ProgressManager.ProgressBar bar = ProgressManager.push("Lawnmower", amount);
+        for (int i = 0; i < amount; i++) {
+            bar.step("Rustling jimmies");
+            try {
+                Thread.sleep(5000 / amount);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        ProgressManager.pop(bar);
     }
 }

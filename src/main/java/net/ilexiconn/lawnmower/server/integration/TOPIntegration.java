@@ -47,6 +47,8 @@ public class TOPIntegration implements Integration {
                         }
                         chance *= world.isRaining() ? 22 : 10 * 100 / 75;
                         probeInfo.text((chance >= 75 ? TextFormatting.RED.toString() : chance >= 50 ? TextFormatting.YELLOW.toString() : TextFormatting.GREEN.toString()) + chance + "% chance of growing back");
+                    } else if (state.getBlock() == Lawnmower.ZEN_SAND) {
+                        probeInfo.text(TextFormatting.GREEN.toString() + "0% chance of growing back (it's sand...)");
                     }
                 }
             });

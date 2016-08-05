@@ -1,4 +1,13 @@
 {
+  "engine": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "lawnmower:engine",
+        "stream": true
+      }
+    ]
+  },
   "rustle": {
     "category": "master",
     "sounds": [

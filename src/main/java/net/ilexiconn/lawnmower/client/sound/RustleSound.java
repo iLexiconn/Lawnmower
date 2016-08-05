@@ -8,10 +8,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RustleMovingSound extends MovingSound {
+public class RustleSound extends MovingSound {
     private LawnmowerEntity entity;
 
-    public RustleMovingSound(LawnmowerEntity entity) {
+    public RustleSound(LawnmowerEntity entity) {
         super(ClientProxy.RUSTLE, SoundCategory.AMBIENT);
         this.entity = entity;
         this.repeat = true;
@@ -22,10 +22,11 @@ public class RustleMovingSound extends MovingSound {
     public void update() {
         if (this.entity.isDead) {
             this.donePlaying = true;
-        } else {
-            this.xPosF = (float) this.entity.posX;
-            this.yPosF = (float) this.entity.posY;
-            this.zPosF = (float) this.entity.posZ;
+            return;
         }
+
+        this.xPosF = (float) this.entity.posX;
+        this.yPosF = (float) this.entity.posY;
+        this.zPosF = (float) this.entity.posZ;
     }
 }

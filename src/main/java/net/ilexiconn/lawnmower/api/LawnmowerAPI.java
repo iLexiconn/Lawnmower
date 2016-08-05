@@ -36,7 +36,7 @@ public enum LawnmowerAPI {
         Block block = grass.getBlock();
         Lawn lawn = this.lawnMap.get(block);
         if (lawn == null) {
-            return false;
+            return this.isLawn(world, pos);
         }
 
         if (entity instanceof EntityPlayer) {

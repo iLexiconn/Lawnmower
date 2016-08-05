@@ -1,0 +1,24 @@
+{
+  "variants": {
+    "level=0": [
+      {
+        "model": "lawnmower:grass_0"
+      }
+    ],
+    "level=1": [
+      {
+        "model": "lawnmower:grass_1"
+      }
+    ],
+    "level=2": [
+      {
+        "model": "lawnmower:grass_2"
+      }
+    ],
+    "level=3": [
+      {
+        "model": "lawnmower:grass_3"
+      }
+    ]
+  }
+}

@@ -1,16 +1,16 @@
 package net.ilexiconn.lawnmower.server.item;
 
-import net.ilexiconn.lawnmower.Lawnmower;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,21 +24,13 @@ public class LawnmowerItem extends Item implements net.ilexiconn.lawnmower.api.L
         this.setRegistryName(new ResourceLocation("lawnmower", "lawnmower"));
         this.setUnlocalizedName("lawnmower");
         this.setCreativeTab(CreativeTabs.TOOLS);
-        this.setHasSubtypes(true);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> list) {
-        for (int i = 0; i < LawnmowerItem.COLORS.length; i++) {
-            list.add(new ItemStack(Lawnmower.LAWNMOWER, 1, i));
-        }
+        this.setMaxDamage(2048);
     }
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (isSelected) {
-            this.onUpdateLawnmower(world, entity);
+        if (isSelected && this.onUpdateLawnmower(world, entity) && entity instanceof EntityLivingBase) {
+            stack.damageItem(1, (EntityLivingBase) entity);
         }
     }
 
@@ -62,12 +54,14 @@ public class LawnmowerItem extends Item implements net.ilexiconn.lawnmower.api.L
     }
 
     @Override
-    public String getItemStackDisplayName(ItemStack stack) {
-        return I18n.translateToLocal("item.fireworksCharge." + LawnmowerItem.COLORS[stack.getItemDamage()].getUnlocalizedName()) + " " + I18n.translateToLocal("item.lawnmower.name");
+    public boolean damageEntities() {
+        return true;
     }
 
     @Override
-    public boolean damageEntities() {
-        return true;
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
+        int color = Minecraft.getMinecraft().getItemColors().getColorFromItemstack(stack, 0);
+        tooltip.add(String.format("#%06X", (0xFFFFFF & color)));
     }
 }

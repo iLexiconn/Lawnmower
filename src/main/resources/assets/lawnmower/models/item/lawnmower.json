@@ -1,7 +1,7 @@
 {
   "textures": {
     "0": "blocks/hardened_clay_stained_black",
-    "1": "blocks/hardened_clay_stained_black",
+    "1": "lawnmower:items/lawnmower_overlay",
     "2": "blocks/stone_slab_top",
     "3": "blocks/iron_block",
     "4": "blocks/stone",
@@ -228,6 +228,7 @@
       "faces": {
         "north": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -237,6 +238,7 @@
         },
         "east": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -246,6 +248,7 @@
         },
         "south": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -255,6 +258,7 @@
         },
         "west": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -264,6 +268,7 @@
         },
         "up": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -297,6 +302,7 @@
       "faces": {
         "north": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -306,6 +312,7 @@
         },
         "east": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -315,6 +322,7 @@
         },
         "south": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -324,6 +332,7 @@
         },
         "west": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -333,6 +342,7 @@
         },
         "up": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -365,6 +375,7 @@
       "faces": {
         "north": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -374,6 +385,7 @@
         },
         "east": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -383,6 +395,7 @@
         },
         "south": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -392,6 +405,7 @@
         },
         "west": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -401,6 +415,7 @@
         },
         "up": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -723,6 +738,7 @@
       "faces": {
         "north": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -732,6 +748,7 @@
         },
         "east": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -741,6 +758,7 @@
         },
         "south": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -750,6 +768,7 @@
         },
         "west": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -759,6 +778,7 @@
         },
         "up": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,
@@ -768,6 +788,7 @@
         },
         "down": {
           "texture": "#1",
+          "tintindex": 0,
           "uv": [
             0.0,
             0.0,

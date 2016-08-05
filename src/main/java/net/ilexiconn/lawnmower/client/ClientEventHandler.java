@@ -1,8 +1,9 @@
 package net.ilexiconn.lawnmower.client;
 
 import net.ilexiconn.lawnmower.Lawnmower;
-import net.ilexiconn.lawnmower.client.sound.RustleMovingSound;
+import net.ilexiconn.lawnmower.client.sound.RustleSound;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
+import net.ilexiconn.lawnmower.server.message.EngineSoundMessage;
 import net.ilexiconn.llibrary.client.event.PlayerModelEvent;
 import net.ilexiconn.llibrary.client.util.ClientUtils;
 import net.minecraft.client.Minecraft;
@@ -20,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -31,6 +33,7 @@ public enum ClientEventHandler {
     private Minecraft mc = Minecraft.getMinecraft();
     private ResourceLocation overlay = new ResourceLocation("lawnmower", "textures/gui/gorilla_overlay.png");
     private float overlayOpacity;
+    private boolean hadLawnmower = false;
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
@@ -63,7 +66,7 @@ public enum ClientEventHandler {
     @SubscribeEvent
     public void onEntitySpawn(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof LawnmowerEntity) {
-            this.mc.getSoundHandler().playSound(new RustleMovingSound((LawnmowerEntity) event.getEntity()));
+            this.mc.getSoundHandler().playSound(new RustleSound((LawnmowerEntity) event.getEntity()));
         }
     }
 
@@ -74,7 +77,7 @@ public enum ClientEventHandler {
         boolean rotateRight = false;
         boolean hasMainItem = false;
         for (EnumHand hand : EnumHand.values()) {
-            ItemStack stack = this.mc.thePlayer.getHeldItem(hand);
+            ItemStack stack = event.getEntityPlayer().getHeldItem(hand);
             if (stack == null) {
                 continue;
             }
@@ -117,6 +120,26 @@ public enum ClientEventHandler {
             event.getModel().bipedRightArm.rotateAngleX = -0.5F;
             event.getModel().bipedRightArm.rotateAngleY = 0.0F;
             event.getModel().bipedRightArm.rotateAngleZ = 0.0F;
+        }
+    }
+
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (this.mc.thePlayer == null) {
+            return;
+        }
+
+        boolean flag = false;
+        for (EnumHand hand : EnumHand.values()) {
+            ItemStack stack = this.mc.thePlayer.getHeldItem(hand);
+            flag = flag || (stack != null && stack.getItem() == Lawnmower.LAWNMOWER);
+        }
+
+        if (flag != this.hadLawnmower) {
+            this.hadLawnmower = flag;
+            if (flag) {
+                Lawnmower.NETWORK_WRAPPER.sendToServer(new EngineSoundMessage(this.mc.thePlayer.getGameProfile().getId()));
+            }
         }
     }
 }

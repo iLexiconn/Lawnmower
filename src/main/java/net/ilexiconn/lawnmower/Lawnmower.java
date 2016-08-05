@@ -4,12 +4,16 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import net.ilexiconn.lawnmower.api.LawnmowerAPI;
 import net.ilexiconn.lawnmower.server.ServerProxy;
+import net.ilexiconn.lawnmower.server.block.GrassBlock;
 import net.ilexiconn.lawnmower.server.block.LawnBlock;
 import net.ilexiconn.lawnmower.server.block.ZenSandBlock;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
 import net.ilexiconn.lawnmower.server.integration.Integration;
 import net.ilexiconn.lawnmower.server.integration.TOPIntegration;
 import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
+import net.ilexiconn.lawnmower.server.message.EngineSoundMessage;
+import net.ilexiconn.llibrary.server.network.NetworkWrapper;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
@@ -17,6 +21,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -33,11 +38,14 @@ public class Lawnmower {
 
     @SidedProxy(serverSide = "net.ilexiconn.lawnmower.server.ServerProxy", clientSide = "net.ilexiconn.lawnmower.client.ClientProxy")
     public static ServerProxy PROXY;
+    @NetworkWrapper({EngineSoundMessage.class})
+    public static SimpleNetworkWrapper NETWORK_WRAPPER;
     public static Logger LOGGER = LogManager.getLogger("Lawnmower");
 
     public static final LawnBlock LAWN = new LawnBlock();
     public static final ZenSandBlock ZEN_SAND = new ZenSandBlock();
     public static final Item LAWNMOWER = new LawnmowerItem();
+    public static final Block GRASS = new GrassBlock();
 
     public static final List<Integration> INTEGRATIONS = new ArrayList<>();
 
@@ -48,6 +56,7 @@ public class Lawnmower {
         GameRegistry.register(Lawnmower.LAWN);
         GameRegistry.register(Lawnmower.ZEN_SAND);
         GameRegistry.register(Lawnmower.LAWNMOWER);
+        GameRegistry.register(Lawnmower.GRASS);
 
         EntityRegistry.registerModEntity(LawnmowerEntity.class, "lawnmower", 0, this, 80, 1, true);
 

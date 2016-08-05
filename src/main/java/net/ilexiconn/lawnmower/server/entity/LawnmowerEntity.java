@@ -11,11 +11,13 @@ public class LawnmowerEntity extends EntityItem implements Lawnmower {
     public LawnmowerEntity(World world) {
         super(world);
         this.setPickupDelay(40);
+        this.setSize(0.6F, 0.7F);
     }
 
     public LawnmowerEntity(World worldIn, double x, double y, double z, ItemStack stack) {
         super(worldIn, x, y, z, stack);
         this.setPickupDelay(40);
+        this.setSize(0.6F, 0.7F);
     }
 
     @Override
