@@ -1,8 +1,11 @@
 package net.ilexiconn.lawnmower.server.item;
 
 import net.ilexiconn.lawnmower.Lawnmower;
+import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,8 +38,27 @@ public class LawnmowerItem extends Item implements net.ilexiconn.lawnmower.api.L
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (isSelected) {
-            this.onUpdateLawnmower(world, entity, stack);
+            this.onUpdateLawnmower(world, entity);
         }
+    }
+
+    @Override
+    public boolean hasCustomEntity(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public Entity createEntity(World world, Entity entity, ItemStack stack) {
+        Entity lawnmower = new LawnmowerEntity(world, entity.posX, entity.posY, entity.posZ, stack);
+        lawnmower.motionX = entity.motionX;
+        lawnmower.motionY = entity.motionY;
+        lawnmower.motionZ = entity.motionZ;
+        String thrower = ((EntityItem) entity).getThrower();
+        if (thrower != null) {
+            EntityPlayer player = world.getPlayerEntityByName(thrower);
+            lawnmower.rotationYaw = player.getRotationYawHead();
+        }
+        return lawnmower;
     }
 
     @Override

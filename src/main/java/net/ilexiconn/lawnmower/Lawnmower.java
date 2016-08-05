@@ -4,6 +4,7 @@ import net.ilexiconn.lawnmower.api.LawnmowerAPI;
 import net.ilexiconn.lawnmower.server.ServerProxy;
 import net.ilexiconn.lawnmower.server.block.LawnBlock;
 import net.ilexiconn.lawnmower.server.block.ZenSandBlock;
+import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
 import net.ilexiconn.lawnmower.server.integration.Integration;
 import net.ilexiconn.lawnmower.server.integration.TOPIntegration;
 import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
@@ -13,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,6 +45,8 @@ public class Lawnmower {
         GameRegistry.register(Lawnmower.LAWN);
         GameRegistry.register(Lawnmower.ZEN_SAND);
         GameRegistry.register(Lawnmower.LAWNMOWER);
+
+        EntityRegistry.registerModEntity(LawnmowerEntity.class, "lawnmower", 0, this, 80, 1, true);
 
         LawnmowerAPI.INSTANCE.registerLawn(Blocks.GRASS, Lawnmower.LAWN);
         LawnmowerAPI.INSTANCE.registerLawn(Blocks.SAND, Lawnmower.ZEN_SAND);

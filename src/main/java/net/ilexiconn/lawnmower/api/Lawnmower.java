@@ -1,7 +1,6 @@
 package net.ilexiconn.lawnmower.api;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -9,10 +8,6 @@ import net.minecraft.world.World;
 
 public interface Lawnmower {
     default void onUpdateLawnmower(World world, Entity entity) {
-        this.onUpdateLawnmower(world, entity, null);
-    }
-
-    default void onUpdateLawnmower(World world, Entity entity, ItemStack stack) {
         if (world.isRemote) {
             return;
         }

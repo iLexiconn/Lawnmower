@@ -58,6 +58,12 @@ processResources {
     }
 }
 
+jar {
+    manifest {
+        attributes "FMLAT": "lwnmower_at.cfg"
+    }
+}
+
 String getModFile() {
     String path = "";
     FileTree tree = fileTree(dir: 'src/main/java')

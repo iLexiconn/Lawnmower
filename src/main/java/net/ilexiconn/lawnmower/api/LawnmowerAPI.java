@@ -26,6 +26,11 @@ public enum LawnmowerAPI {
         this.lawnMap.put(grass, lawn);
     }
 
+    public boolean isLawn(World world, BlockPos pos) {
+        Block block = world.getBlockState(pos).getBlock();
+        return block instanceof Lawn || this.lawnMap.containsKey(block);
+    }
+
     public boolean handleMow(Lawnmower lawnmower, World world, BlockPos pos, Entity entity) {
         IBlockState grass = world.getBlockState(pos);
         Block block = grass.getBlock();
