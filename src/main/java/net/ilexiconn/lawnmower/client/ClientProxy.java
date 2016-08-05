@@ -10,19 +10,26 @@ import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.BlockColors;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends ServerProxy {
+    public static SoundEvent RUSTLE;
+
     @Override
     public void onPreInit() {
         super.onPreInit();
+
+        ClientProxy.RUSTLE = this.createSound("rustle");
 
         MinecraftForge.EVENT_BUS.register(ClientEventHandler.INSTANCE);
         RenderingRegistry.registerEntityRenderingHandler(LawnmowerEntity.class, new LawnmowerRenderer.Factory());
@@ -37,7 +44,6 @@ public class ClientProxy extends ServerProxy {
         super.onInit();
 
         BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
-
         blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> {
             if (world == null || pos == null) {
                 return ColorizerGrass.getGrassColor(0.5D, 1.0D);
@@ -62,5 +68,10 @@ public class ClientProxy extends ServerProxy {
             LawnType type = state.getValue(Lawn.TYPE);
             return type == LawnType.LIGHT ? 0xFFFFFF : 0xDDDDDD;
         }, Lawnmower.ZEN_SAND);
+    }
+
+    private SoundEvent createSound(String name) {
+        ResourceLocation resource = new ResourceLocation("lawnmower", name);
+        return GameRegistry.register(new SoundEvent(resource), resource);
     }
 }

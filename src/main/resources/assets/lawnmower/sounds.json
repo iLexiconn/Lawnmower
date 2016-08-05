@@ -1,0 +1,11 @@
+{
+  "rustle": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "lawnmower:rustle",
+        "stream": true
+      }
+    ]
+  }
+}

@@ -1,20 +1,24 @@
 package net.ilexiconn.lawnmower.client;
 
 import net.ilexiconn.lawnmower.Lawnmower;
+import net.ilexiconn.lawnmower.client.sound.RustleMovingSound;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
 import net.ilexiconn.llibrary.client.event.PlayerModelEvent;
 import net.ilexiconn.llibrary.client.util.ClientUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -27,7 +31,6 @@ public enum ClientEventHandler {
     private Minecraft mc = Minecraft.getMinecraft();
     private ResourceLocation overlay = new ResourceLocation("lawnmower", "textures/gui/gorilla_overlay.png");
     private float overlayOpacity;
-    private Gui gui = new Gui();
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
@@ -58,27 +61,62 @@ public enum ClientEventHandler {
     }
 
     @SubscribeEvent
+    public void onEntitySpawn(EntityJoinWorldEvent event) {
+        if (event.getEntity() instanceof LawnmowerEntity) {
+            this.mc.getSoundHandler().playSound(new RustleMovingSound((LawnmowerEntity) event.getEntity()));
+        }
+    }
+
+    @SubscribeEvent
     public void onSetRotationAngles(PlayerModelEvent.SetRotationAngles event) {
-        if (event.getEntityPlayer() == this.mc.thePlayer && this.mc.thePlayer.getHeldItemMainhand() != null && this.mc.thePlayer.getHeldItemMainhand().getItem() == Lawnmower.LAWNMOWER) {
-            boolean left = true, right = true;
-            if (this.mc.thePlayer.getHeldItemOffhand() != null) {
-                EnumHandSide main = this.mc.gameSettings.mainHand;
-                if (main == EnumHandSide.RIGHT) {
-                    left = false;
+        EnumHandSide main = this.mc.gameSettings.mainHand;
+        boolean rotateLeft = false;
+        boolean rotateRight = false;
+        boolean hasMainItem = false;
+        for (EnumHand hand : EnumHand.values()) {
+            ItemStack stack = this.mc.thePlayer.getHeldItem(hand);
+            if (stack == null) {
+                continue;
+            }
+            Item item = stack.getItem();
+            if (hand == EnumHand.MAIN_HAND) {
+                if (item == Lawnmower.LAWNMOWER) {
+                    rotateLeft = rotateRight = true;
                 } else {
-                    right = false;
+                    hasMainItem = true;
+                }
+            } else if (hand == EnumHand.OFF_HAND) {
+                if (item == Lawnmower.LAWNMOWER) {
+                    if (main == EnumHandSide.LEFT) {
+                        rotateRight = true;
+                        if (!hasMainItem) {
+                            rotateLeft = true;
+                        }
+                    } else if (main == EnumHandSide.RIGHT) {
+                        rotateLeft = true;
+                        if (!hasMainItem) {
+                            rotateRight = true;
+                        }
+                    }
+                } else {
+                    if (main == EnumHandSide.LEFT) {
+                        rotateRight = false;
+                    } else if (main == EnumHandSide.RIGHT) {
+                        rotateLeft = false;
+                    }
                 }
             }
-            if (right) {
-                event.getModel().bipedRightArm.rotateAngleX = -0.5F;
-                event.getModel().bipedRightArm.rotateAngleY = 0.0F;
-                event.getModel().bipedRightArm.rotateAngleZ = 0.0F;
-            }
-            if (left) {
-                event.getModel().bipedLeftArm.rotateAngleX = -0.5F;
-                event.getModel().bipedLeftArm.rotateAngleY = 0.0F;
-                event.getModel().bipedLeftArm.rotateAngleZ = 0.0F;
-            }
+        }
+
+        if (rotateLeft) {
+            event.getModel().bipedLeftArm.rotateAngleX = -0.5F;
+            event.getModel().bipedLeftArm.rotateAngleY = 0.0F;
+            event.getModel().bipedLeftArm.rotateAngleZ = 0.0F;
+        }
+        if (rotateRight) {
+            event.getModel().bipedRightArm.rotateAngleX = -0.5F;
+            event.getModel().bipedRightArm.rotateAngleY = 0.0F;
+            event.getModel().bipedRightArm.rotateAngleZ = 0.0F;
         }
     }
 }
