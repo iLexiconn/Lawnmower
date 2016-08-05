@@ -1,5 +1,7 @@
 package net.ilexiconn.lawnmower;
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import net.ilexiconn.lawnmower.api.LawnmowerAPI;
 import net.ilexiconn.lawnmower.server.ServerProxy;
 import net.ilexiconn.lawnmower.server.block.LawnBlock;
@@ -13,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -57,5 +60,15 @@ public class Lawnmower {
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
         Lawnmower.PROXY.onInit();
+    }
+
+    @Mod.EventHandler
+    public void onIMC(FMLInterModComms.IMCEvent event) {
+        event.getMessages().stream().filter(message -> message.key.equalsIgnoreCase("api")).forEach(message -> {
+            Optional<Function<LawnmowerAPI, Void>> value = message.getFunctionValue(LawnmowerAPI.class, Void.class);
+            if (value.isPresent()) {
+                value.get().apply(LawnmowerAPI.INSTANCE);
+            }
+        });
     }
 }
