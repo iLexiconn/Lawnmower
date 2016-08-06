@@ -58,7 +58,5 @@ public class EngineSound extends MovingSound {
         } else {
             this.volumeGoal = 0.000001F;
         }
-
-        System.out.println(this.volumeGoal);
     }
 }

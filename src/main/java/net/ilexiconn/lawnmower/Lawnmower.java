@@ -12,10 +12,12 @@ import net.ilexiconn.lawnmower.server.integration.Integration;
 import net.ilexiconn.lawnmower.server.integration.TOPIntegration;
 import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
 import net.ilexiconn.lawnmower.server.message.EngineSoundMessage;
+import net.ilexiconn.lawnmower.server.recipe.LawnmowerRecipe;
 import net.ilexiconn.llibrary.server.network.NetworkWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -57,6 +59,9 @@ public class Lawnmower {
         GameRegistry.register(Lawnmower.ZEN_SAND);
         GameRegistry.register(Lawnmower.LAWNMOWER);
         GameRegistry.register(Lawnmower.GRASS);
+
+        GameRegistry.addRecipe(new ItemStack(Lawnmower.LAWNMOWER), " SI", "WWW", "BIB", 'S', new ItemStack(Blocks.STONE, 1, 0), 'I', Blocks.IRON_BARS, 'W', new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, 0), 'B', new ItemStack(Blocks.STAINED_HARDENED_CLAY, 1, 15));
+        GameRegistry.addRecipe(new LawnmowerRecipe());
 
         EntityRegistry.registerModEntity(LawnmowerEntity.class, "lawnmower", 0, this, 80, 1, true);
 
