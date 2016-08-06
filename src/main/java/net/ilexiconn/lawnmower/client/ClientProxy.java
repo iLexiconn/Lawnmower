@@ -82,15 +82,11 @@ public class ClientProxy extends ServerProxy {
 
         ItemColors itemColors = Minecraft.getMinecraft().getItemColors();
         itemColors.registerItemColorHandler((stack, tintIndex) -> {
-            if (tintIndex == 0) {
-                NBTTagCompound compound = stack.getTagCompound();
-                if (compound == null || !compound.hasKey("Color")) {
-                    return 0xFFFFFF;
-                }
-
-                return compound.getInteger("Color");
+            NBTTagCompound compound = stack.getTagCompound();
+            if (compound == null || !compound.hasKey("Color")) {
+                return 0xFFFFFF;
             }
-            return 0;
+            return compound.getInteger("Color");
         }, Lawnmower.LAWNMOWER);
 
         int amount = 100 - new Random().nextInt(100);
@@ -98,7 +94,7 @@ public class ClientProxy extends ServerProxy {
         for (int i = 0; i < amount; i++) {
             bar.step("Rustling jimmies");
             try {
-                Thread.sleep(5000 / amount);
+                Thread.sleep(2500 / amount);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

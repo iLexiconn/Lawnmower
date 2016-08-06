@@ -1,0 +1,7 @@
+{
+  "parent": "lawnmower:block/multi_cross",
+  "textures": {
+    "0": "lawnmower:blocks/clover_3",
+    "1": "lawnmower:blocks/clover_3_overlay"
+  }
+}

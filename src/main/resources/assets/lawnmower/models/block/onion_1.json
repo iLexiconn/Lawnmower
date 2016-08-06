@@ -1,0 +1,7 @@
+{
+  "parent": "lawnmower:block/multi_cross",
+  "textures": {
+    "0": "lawnmower:blocks/onion_1",
+    "1": "lawnmower:blocks/onion_1_overlay"
+  }
+}

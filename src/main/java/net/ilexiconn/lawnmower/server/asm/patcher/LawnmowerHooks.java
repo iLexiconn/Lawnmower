@@ -14,7 +14,7 @@ public class LawnmowerHooks {
         block.randomTick(world, pos, state, random);
         if (!world.isRemote && block == Blocks.GRASS) {
             if (world.isAirBlock(pos.up()) && world.getLightFromNeighbors(pos.up()) >= 4) {
-                if (random.nextInt(10) == 9) {
+                if (random.nextInt(15) == 14) {
                     world.setBlockState(pos.up(), Lawnmower.GRASS.getDefaultState());
                 }
             }

@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.Random;
 
 public class GrassBlock extends Block implements IPlantable {
-    public static final PropertyInteger LEVEL = PropertyInteger.create("level", 0, 3);
+    public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 3);
 
     public static final AxisAlignedBB LEVEL_0_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.25F, 1.0F);
     public static final AxisAlignedBB LEVEL_1_AABB = new AxisAlignedBB(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
@@ -32,29 +32,29 @@ public class GrassBlock extends Block implements IPlantable {
         this.setRegistryName(new ResourceLocation("lawnmower", "grass"));
         this.setUnlocalizedName("grass");
         this.setCreativeTab(null);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(GrassBlock.LEVEL, 0));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(GrassBlock.STAGE, 0));
         this.setTickRandomly(true);
         this.setSoundType(SoundType.PLANT);
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, GrassBlock.LEVEL);
+        return new BlockStateContainer(this, GrassBlock.STAGE);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(GrassBlock.LEVEL);
+        return state.getValue(GrassBlock.STAGE);
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(GrassBlock.LEVEL, meta);
+        return this.getDefaultState().withProperty(GrassBlock.STAGE, meta);
     }
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        int level = state.getValue(GrassBlock.LEVEL);
+        int level = state.getValue(GrassBlock.STAGE);
         if (level == 0) {
             return GrassBlock.LEVEL_0_AABB;
         } else if (level == 1) {
@@ -68,10 +68,10 @@ public class GrassBlock extends Block implements IPlantable {
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
         if (!world.isRemote) {
-            if (random.nextInt(10) == 9 && world.getLightFromNeighbors(pos) >= 4) {
-                int level = state.getValue(GrassBlock.LEVEL);
+            if (random.nextInt(20) == 19 && world.getLightFromNeighbors(pos) >= 4) {
+                int level = state.getValue(GrassBlock.STAGE);
                 if (level < 3) {
-                    world.setBlockState(pos, state.withProperty(GrassBlock.LEVEL, level + 1));
+                    world.setBlockState(pos, state.withProperty(GrassBlock.STAGE, level + 1));
                 }
             }
         }
