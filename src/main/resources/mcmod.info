@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "lawnmower",
+    "name": "Lawnmower",
+    "version": "${version}",
+    "authorList": [
+      "iLexiconn"
+    ],
+    "credits": "Whalezilla",
+    "url": "https://github.com/iLexiconn/TheModdingTrials",
+    "description": "Shh... no tears. Only dreams now.",
+    "dependencies": [
+      "llibrary@[${llibrary_version},)"
+    ]
+  }
+]
