@@ -59,8 +59,9 @@ processResources {
 }
 
 jar {
+    exclude ("llibrary.mappings")
     manifest {
-        attributes "FMLAT": "lwnmower_at.cfg"
+        attributes "FMLAT": "lawnmower_at.cfg"
         attributes "FMLCorePlugin": "net.ilexiconn.lawnmower.server.asm.plugin.LawnmowerPlugin"
         attributes "FMLCorePluginContainsFMLMod": "true"
     }

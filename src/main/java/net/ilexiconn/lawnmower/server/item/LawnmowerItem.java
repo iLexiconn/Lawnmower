@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -18,8 +17,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 public class LawnmowerItem extends Item implements net.ilexiconn.lawnmower.api.Lawnmower {
-    public static final EnumDyeColor[] COLORS = EnumDyeColor.values();
-
     public LawnmowerItem() {
         this.setRegistryName(new ResourceLocation("lawnmower", "lawnmower"));
         this.setUnlocalizedName("lawnmower");
@@ -63,5 +60,10 @@ public class LawnmowerItem extends Item implements net.ilexiconn.lawnmower.api.L
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
         int color = Minecraft.getMinecraft().getItemColors().getColorFromItemstack(stack, 0);
         tooltip.add(String.format("#%06X", (0xFFFFFF & color)));
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return slotChanged;
     }
 }

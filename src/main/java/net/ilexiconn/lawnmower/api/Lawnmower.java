@@ -12,15 +12,12 @@ public interface Lawnmower {
             return false;
         }
         BlockPos pos = entity.getPosition().down();
-        if (LawnmowerAPI.INSTANCE.handleMow(this, world, pos, entity)) {
-            if (this.damageEntities()) {
-                for (Entity target : world.getEntitiesWithinAABBExcludingEntity(entity, new AxisAlignedBB(entity.posX - 1.0F, entity.posY - 1.0F, entity.posZ - 1.0F, entity.posX + 1.0F, entity.posY + 1.0F, entity.posZ + 1.0F))) {
-                    target.attackEntityFrom(new EntityDamageSource("lawnmower", entity), 6.0F);
-                }
+        if (LawnmowerAPI.INSTANCE.isLawn(world, pos) && this.damageEntities()) {
+            for (Entity target : world.getEntitiesWithinAABBExcludingEntity(entity, new AxisAlignedBB(entity.posX - 1.0F, entity.posY - 1.0F, entity.posZ - 1.0F, entity.posX + 1.0F, entity.posY + 1.0F, entity.posZ + 1.0F))) {
+                target.attackEntityFrom(new EntityDamageSource("lawnmower", entity), 6.0F);
             }
-            return true;
         }
-        return false;
+        return LawnmowerAPI.INSTANCE.handleMow(this, world, pos, entity);
     }
 
     default boolean damageEntities() {
