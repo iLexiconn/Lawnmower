@@ -14,7 +14,7 @@ public class LawnmowerRuntimePatcher extends RuntimePatcher {
     public void onInit() {
         patchClass(WorldServer.class)
             .patchMethod("updateBlocks", void.class)
-                .apply(Patch.REPLACE_NODE, at(At.METHOD, "randomTick", World.class, BlockPos.class, IBlockState.class, Random.class, void.class), method -> {
+                .apply(Patch.REPLACE_NODE, at(At.METHOD, "func_180645_a", World.class, BlockPos.class, IBlockState.class, Random.class, void.class), method -> {
                     method.method(INVOKESTATIC, LawnmowerHooks.class, "onRandomTick", Block.class, World.class, BlockPos.class, IBlockState.class, Random.class, void.class);
                 }).pop();
     }

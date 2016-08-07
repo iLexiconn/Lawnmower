@@ -18,6 +18,7 @@ import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -141,5 +142,20 @@ public enum ClientEventHandler {
                 Lawnmower.NETWORK_WRAPPER.sendToServer(new EngineSoundMessage(this.mc.thePlayer.getGameProfile().getId()));
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onMouseInput(MouseEvent event) {
+        if (this.mc.thePlayer == null) {
+            return;
+        }
+
+        boolean flag = false;
+        for (EnumHand hand : EnumHand.values()) {
+            ItemStack stack = this.mc.thePlayer.getHeldItem(hand);
+            flag = flag || (stack != null && stack.getItem() == Lawnmower.LAWNMOWER);
+        }
+
+        event.setCanceled(flag && event.getButton() != -1);
     }
 }

@@ -39,17 +39,16 @@ public enum LawnmowerAPI {
             return false;
         }
 
+        IBlockState lawnState = lawn.getBlockState(world, pos, entity, grass);
+        if (lawnState == null) {
+            return false;
+        }
+
         if (entity instanceof EntityPlayer) {
             BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(world, pos, grass, (EntityPlayer) entity);
             if (MinecraftForge.EVENT_BUS.post(event)) {
                 return false;
             }
-        }
-
-        IBlockState lawnState = lawn.getBlockState(world, pos, entity, grass);
-
-        if (lawnState == null) {
-            return false;
         }
 
         MowEvent mowEvent = new MowEvent(lawnmower, world, pos, entity, lawnState, grass);
@@ -59,8 +58,8 @@ public enum LawnmowerAPI {
 
         lawnState = mowEvent.getLawn();
         world.setBlockState(pos, lawnState);
-
         pos = pos.up();
+
         if (world.getBlockState(pos).getBlock() instanceof IPlantable) {
             grass = world.getBlockState(pos);
             grass.getBlock().dropBlockAsItem(world, pos, grass, 0);

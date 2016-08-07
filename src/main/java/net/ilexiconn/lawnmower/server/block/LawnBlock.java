@@ -75,7 +75,7 @@ public class LawnBlock extends BlockGrass implements Lawn {
 
     @Override
     public IBlockState getBlockState(World world, BlockPos pos, Entity entity, IBlockState grass) {
-        return Lawnmower.LAWN.getDefaultState().withProperty(Lawn.TYPE, LawnType.values()[pos.getX() % 2]);
+        return Lawnmower.LAWN.getDefaultState().withProperty(Lawn.TYPE, LawnType.values()[Math.floorMod(pos.getX(), 2)]);
     }
 
     @Override

@@ -64,6 +64,6 @@ public class ZenSandBlock extends BlockSand implements Lawn {
 
     @Override
     public IBlockState getBlockState(World world, BlockPos pos, Entity entity, IBlockState grass) {
-        return this.getDefaultState().withProperty(BlockSand.VARIANT, grass.getValue(BlockSand.VARIANT)).withProperty(Lawn.TYPE, LawnType.values()[pos.getX() % 2]);
+        return this.getDefaultState().withProperty(BlockSand.VARIANT, grass.getValue(BlockSand.VARIANT)).withProperty(Lawn.TYPE, LawnType.values()[Math.floorMod(pos.getX(), 2)]);
     }
 }
