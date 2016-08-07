@@ -8,6 +8,7 @@ import net.ilexiconn.llibrary.client.event.PlayerModelEvent;
 import net.ilexiconn.llibrary.client.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
@@ -116,11 +117,13 @@ public enum ClientEventHandler {
             event.getModel().bipedLeftArm.rotateAngleX = -0.5F;
             event.getModel().bipedLeftArm.rotateAngleY = 0.0F;
             event.getModel().bipedLeftArm.rotateAngleZ = 0.0F;
+            ModelBase.copyModelAngles(event.getModel().bipedLeftArm, event.getModel().bipedLeftArmwear);
         }
         if (rotateRight) {
             event.getModel().bipedRightArm.rotateAngleX = -0.5F;
             event.getModel().bipedRightArm.rotateAngleY = 0.0F;
             event.getModel().bipedRightArm.rotateAngleZ = 0.0F;
+            ModelBase.copyModelAngles(event.getModel().bipedRightArm, event.getModel().bipedRightArmwear);
         }
     }
 

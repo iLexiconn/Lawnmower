@@ -118,4 +118,10 @@ public class GrassBlock extends Block implements IPlantable {
         }
         return state;
     }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Block.EnumOffsetType getOffsetType() {
+        return Block.EnumOffsetType.XYZ;
+    }
 }

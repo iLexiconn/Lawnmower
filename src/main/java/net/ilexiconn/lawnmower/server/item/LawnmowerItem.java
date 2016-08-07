@@ -9,6 +9,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,11 +23,18 @@ public class LawnmowerItem extends Item implements net.ilexiconn.lawnmower.api.L
         this.setUnlocalizedName("lawnmower");
         this.setCreativeTab(CreativeTabs.TOOLS);
         this.setMaxDamage(2048);
+        this.setMaxStackSize(1);
     }
 
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (isSelected && this.onUpdateLawnmower(world, entity) && entity instanceof EntityLivingBase) {
+        boolean flag = false;
+        for (EnumHand hand : EnumHand.values()) {
+            ItemStack held = ((EntityLivingBase) entity).getHeldItem(hand);
+            flag = flag || (stack != null && ItemStack.areItemStacksEqual(held, stack));
+        }
+
+        if (flag && this.onUpdateLawnmower(world, entity)) {
             stack.damageItem(1, (EntityLivingBase) entity);
         }
     }

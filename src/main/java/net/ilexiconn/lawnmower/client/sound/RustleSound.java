@@ -15,7 +15,8 @@ public class RustleSound extends MovingSound {
         super(ClientProxy.RUSTLE, SoundCategory.AMBIENT);
         this.entity = entity;
         this.repeat = true;
-        this.repeatDelay = 0;
+        this.repeatDelay = 1;
+        this.volume = 2.0F;
     }
 
     @Override

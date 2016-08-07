@@ -22,7 +22,7 @@ public class EngineSound extends MovingSound {
         super(ClientProxy.ENGINE, SoundCategory.AMBIENT);
         this.player = player;
         this.repeat = true;
-        this.repeatDelay = 0;
+        this.repeatDelay = 1;
         this.volume = 0.000001F;
         this.volumeGoal = 0.000001F;
     }
