@@ -2,6 +2,7 @@ package net.ilexiconn.lawnmower.client.sound;
 
 import net.ilexiconn.lawnmower.Lawnmower;
 import net.ilexiconn.lawnmower.api.LawnmowerAPI;
+import net.ilexiconn.lawnmower.client.ClientEventHandler;
 import net.ilexiconn.lawnmower.client.ClientProxy;
 import net.ilexiconn.llibrary.client.util.ClientUtils;
 import net.minecraft.client.audio.MovingSound;
@@ -31,21 +32,25 @@ public class EngineSound extends MovingSound {
     public void update() {
         if (this.player.isDead) {
             this.donePlaying = true;
+            this.volume = 0.0F;
+            ClientEventHandler.INSTANCE.engineSounds.remove(this.player.getUniqueID());
             return;
         }
-
-        this.volume = ClientUtils.interpolate(this.volume, this.volumeGoal, 0.5F);
 
         boolean flag = false;
         for (EnumHand hand : EnumHand.values()) {
             ItemStack stack = this.player.getHeldItem(hand);
-            flag = flag || (stack != null && stack.getItem() == Lawnmower.LAWNMOWER);
+            flag |= stack != null && stack.getItem() == Lawnmower.LAWNMOWER;
         }
 
         if (!flag) {
             this.donePlaying = true;
+            this.volume = 0.0F;
+            ClientEventHandler.INSTANCE.engineSounds.remove(this.player.getUniqueID());
             return;
         }
+
+        this.volume = ClientUtils.interpolate(this.volume, this.volumeGoal, 0.5F);
 
         this.xPosF = (float) this.player.posX;
         this.yPosF = (float) this.player.posY;

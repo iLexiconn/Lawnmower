@@ -1,9 +1,9 @@
 package net.ilexiconn.lawnmower.client;
 
 import net.ilexiconn.lawnmower.Lawnmower;
+import net.ilexiconn.lawnmower.client.sound.EngineSound;
 import net.ilexiconn.lawnmower.client.sound.RustleSound;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
-import net.ilexiconn.lawnmower.server.message.EngineSoundMessage;
 import net.ilexiconn.llibrary.client.event.PlayerModelEvent;
 import net.ilexiconn.llibrary.client.util.ClientUtils;
 import net.minecraft.client.Minecraft;
@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntitySelectors;
@@ -28,6 +29,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 @SideOnly(Side.CLIENT)
 public enum ClientEventHandler {
     INSTANCE;
@@ -35,12 +40,12 @@ public enum ClientEventHandler {
     private Minecraft mc = Minecraft.getMinecraft();
     private ResourceLocation overlay = new ResourceLocation("lawnmower", "textures/gui/gorilla_overlay.png");
     private float overlayOpacity;
-    private boolean hadLawnmower = false;
+    public List<UUID> engineSounds = new ArrayList<>();
 
     @SubscribeEvent
     public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
         if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-            boolean shouldDraw = this.mc.theWorld.getEntities(LawnmowerEntity.class, EntitySelectors.IS_ALIVE).isEmpty();
+            boolean shouldDraw = this.mc.theWorld.getEntities(LawnmowerEntity.class, EntitySelectors.IS_ALIVE).isEmpty();;
             this.overlayOpacity = ClientUtils.interpolate(this.overlayOpacity, shouldDraw ? 0.0F : 0.7F, shouldDraw ? 0.1F : 0.01F);
             if (overlayOpacity > 0.0F) {
                 Minecraft mc = this.mc;
@@ -49,16 +54,15 @@ public enum ClientEventHandler {
                 GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 GlStateManager.color(1.0F, 1.0F, 1.0F, this.overlayOpacity);
                 ScaledResolution resolution = new ScaledResolution(mc);
-                int x = resolution.getScaledWidth() - 130;
-                int y = -20;
-                int width = 310;
-                int height = resolution.getScaledHeight() + 60;
+                int y = -30;
+                int size = resolution.getScaledHeight() / 3 * 4;
+                int x = resolution.getScaledWidth() - resolution.getScaledHeight() / 3 * 2;
                 Tessellator tessellator = Tessellator.getInstance();
                 VertexBuffer vertexbuffer = tessellator.getBuffer();
-                vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-                vertexbuffer.pos(x, y + height, 0).tex(0, 1).endVertex();
-                vertexbuffer.pos(x + width, y + height, 0).tex(1, 1).endVertex();
-                vertexbuffer.pos(x + width, y, 0).tex(1, 0).endVertex();
+                vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+                vertexbuffer.pos(x, y + size, 0).tex(0, 1).endVertex();
+                vertexbuffer.pos(x + size, y + size, 0).tex(1, 1).endVertex();
+                vertexbuffer.pos(x + size, y, 0).tex(1, 0).endVertex();
                 vertexbuffer.pos(x, y, 0).tex(0, 0).endVertex();
                 tessellator.draw();
             }
@@ -129,20 +133,21 @@ public enum ClientEventHandler {
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
-        if (this.mc.thePlayer == null) {
+        if (this.mc.theWorld == null) {
             return;
         }
 
-        boolean flag = false;
-        for (EnumHand hand : EnumHand.values()) {
-            ItemStack stack = this.mc.thePlayer.getHeldItem(hand);
-            flag = flag || (stack != null && stack.getItem() == Lawnmower.LAWNMOWER);
-        }
+        for (EntityPlayer player : this.mc.theWorld.playerEntities) {
+            boolean flag = false;
+            for (EnumHand hand : EnumHand.values()) {
+                ItemStack stack = player.getHeldItem(hand);
+                flag |= stack != null && stack.getItem() == Lawnmower.LAWNMOWER;
+            }
 
-        if (flag != this.hadLawnmower) {
-            this.hadLawnmower = flag;
-            if (flag) {
-                Lawnmower.NETWORK_WRAPPER.sendToServer(new EngineSoundMessage(this.mc.thePlayer.getGameProfile().getId()));
+            if (flag && !this.engineSounds.contains(player.getUniqueID())) {
+                System.out.println("kek");
+                this.mc.getSoundHandler().playSound(new EngineSound(player));
+                this.engineSounds.add(player.getUniqueID());
             }
         }
     }

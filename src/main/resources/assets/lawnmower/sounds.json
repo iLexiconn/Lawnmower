@@ -3,8 +3,7 @@
     "category": "master",
     "sounds": [
       {
-        "name": "lawnmower:engine",
-        "stream": true
+        "name": "lawnmower:engine"
       }
     ]
   },

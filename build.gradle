@@ -16,6 +16,7 @@ def mod_file = getModFile()
 version = getVersion("VERSION", mod_file)
 def llibrary_version = getVersion("LLIBRARY_VERSION", mod_file)
 def top_version = getVersion("TOP_VERSION", mod_file)
+def waila_version = getVersion("WAILA_VERSION", mod_file)
 group = "net.ilexiconn"
 archivesBaseName = "lawnmower"
 sourceCompatibility = targetCompatibility = "1.8"
@@ -36,11 +37,16 @@ repositories {
         name = "tterrag"
         url = "http://maven.tterrag.com/"
     }
+    maven {
+        name = "mobius"
+        url = "http://mobiusstrip.eu/maven"
+    }
 }
 
 dependencies {
     compile "net.ilexiconn:llibrary:$llibrary_version-1.10.2:dev"
     deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-$top_version"
+    compile "mcp.mobius.waila:Waila:" + waila_version + "_1.9.4"
 }
 
 processResources {

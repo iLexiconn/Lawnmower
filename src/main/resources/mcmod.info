@@ -7,7 +7,7 @@
       "iLexiconn"
     ],
     "credits": "Whalezilla",
-    "url": "https://github.com/iLexiconn/TheModdingTrials",
+    "url": "https://minecraft.curseforge.com/projects/lawnmower",
     "description": "Shh... no tears. Only dreams now.",
     "dependencies": [
       "llibrary@[${llibrary_version},)"

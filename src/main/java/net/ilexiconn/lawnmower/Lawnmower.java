@@ -10,10 +10,9 @@ import net.ilexiconn.lawnmower.server.block.ZenSandBlock;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
 import net.ilexiconn.lawnmower.server.integration.Integration;
 import net.ilexiconn.lawnmower.server.integration.TOPIntegration;
+import net.ilexiconn.lawnmower.server.integration.WailaIntegration;
 import net.ilexiconn.lawnmower.server.item.LawnmowerItem;
-import net.ilexiconn.lawnmower.server.message.EngineSoundMessage;
 import net.ilexiconn.lawnmower.server.recipe.LawnmowerRecipe;
-import net.ilexiconn.llibrary.server.network.NetworkWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -23,7 +22,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -37,11 +35,10 @@ public class Lawnmower {
     public static final String VERSION = "1.0.0";
     public static final String LLIBRARY_VERSION = "1.5.1";
     public static final String TOP_VERSION = "1.0.15-28";
+    public static final String WAILA_VERSION = "1.7.0-B3";
 
     @SidedProxy(serverSide = "net.ilexiconn.lawnmower.server.ServerProxy", clientSide = "net.ilexiconn.lawnmower.client.ClientProxy")
     public static ServerProxy PROXY;
-    @NetworkWrapper({EngineSoundMessage.class})
-    public static SimpleNetworkWrapper NETWORK_WRAPPER;
     public static Logger LOGGER = LogManager.getLogger("Lawnmower");
 
     public static final LawnBlock LAWN = new LawnBlock();
@@ -69,6 +66,7 @@ public class Lawnmower {
         LawnmowerAPI.INSTANCE.registerLawn(Blocks.SAND, Lawnmower.ZEN_SAND);
 
         Lawnmower.INTEGRATIONS.add(new TOPIntegration());
+        Lawnmower.INTEGRATIONS.add(new WailaIntegration());
     }
 
     @Mod.EventHandler

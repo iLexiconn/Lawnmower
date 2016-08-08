@@ -23,6 +23,7 @@ public class RustleSound extends MovingSound {
     public void update() {
         if (this.entity.isDead) {
             this.donePlaying = true;
+            this.volume = 0.0F;
             return;
         }
 
