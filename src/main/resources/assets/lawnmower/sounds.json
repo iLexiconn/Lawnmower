@@ -5,7 +5,8 @@
       {
         "name": "lawnmower:engine"
       }
-    ]
+    ],
+    "subtitle": "subtitles.lawnmower.engine"
   },
   "rustle": {
     "category": "master",
@@ -14,6 +15,7 @@
         "name": "lawnmower:rustle",
         "stream": true
       }
-    ]
+    ],
+    "subtitle": "subtitles.lawnmower.rustle"
   }
 }

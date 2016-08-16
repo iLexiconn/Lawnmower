@@ -1,5 +1,6 @@
 package net.ilexiconn.lawnmower.server.item;
 
+import net.ilexiconn.lawnmower.Lawnmower;
 import net.ilexiconn.lawnmower.server.entity.LawnmowerEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -41,7 +42,7 @@ public class LawnmowerItem extends Item implements net.ilexiconn.lawnmower.api.L
 
     @Override
     public boolean hasCustomEntity(ItemStack stack) {
-        return true;
+        return Lawnmower.CONFIG.flyingLawnmower;
     }
 
     @Override

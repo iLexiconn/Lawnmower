@@ -61,7 +61,8 @@ public class WailaIntegration implements Integration {
                         chance++;
                     }
                 }
-                chance *= accessor.getWorld().isRaining() ? 22 : 10 * 100 / 75;
+                int rate = Lawnmower.CONFIG.lawnTickRate * (accessor.getWorld().isRaining() ? 2 : 1);
+                chance *= rate * 100 / 75;
                 currenttip.add((chance >= 75 ? TextFormatting.RED.toString() : chance >= 50 ? TextFormatting.YELLOW.toString() : TextFormatting.GREEN.toString()) + chance + "% chance of growing back");
             } else if (accessor.getBlock() == Lawnmower.ZEN_SAND) {
                 currenttip.add(TextFormatting.GREEN.toString() + "0% chance of growing back (it's sand...)");

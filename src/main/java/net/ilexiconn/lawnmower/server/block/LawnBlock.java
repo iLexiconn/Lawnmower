@@ -45,7 +45,8 @@ public class LawnBlock extends BlockGrass implements Lawn {
                         chance++;
                     }
                 }
-                chance *= world.isRaining() ? 22 : 10 * 100 / 75;
+                int rate = Lawnmower.CONFIG.lawnTickRate * (world.isRaining() ? 2 : 1);
+                chance *= rate * 100 / 75;
                 if (chance != 0 && random.nextInt(100) > 100 - chance) {
                     world.setBlockState(pos, Blocks.GRASS.getDefaultState());
                 }
